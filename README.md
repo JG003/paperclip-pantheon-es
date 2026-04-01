@@ -5,7 +5,7 @@
 
 Creado por [Josh Galt III](https://x.com/joshgalt) y [Anabasis Intelligence](https://anabasisintelligence.com), una firma de implementación de IA creativa que ayuda a PyMEs a operacionalizar fuerzas laborales de IA. **[English version](https://github.com/JG003/paperclip-pantheon)**
 
-![Paperclip Pantheon](banner-paperclip-pantheon2.png)
+![Paperclip Pantheon](banner.png)
 
 ---
 
