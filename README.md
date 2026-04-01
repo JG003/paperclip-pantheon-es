@@ -1,9 +1,9 @@
 # El Paperclip Pantheon
 
 **Un framework completo de fuerza laboral IA para operar una empresa con 21 agentes especializados, un consejo estratégico de 5 miembros y un CEO — todos nombrados de la mitología griega porque los nombres codifican las funciones.**
-**[English version](https://github.com/JG003/paperclip-pantheon)**
 
-Creado por [Josh Galt III](https://x.com/joshgalt) y [Anabasis Intelligence](https://anabasisintelligence.com), una firma de implementación de IA creativa que ayuda a PyMEs a operacionalizar fuerzas laborales de IA.
+
+Creado por [Josh Galt III](https://x.com/joshgalt) y [Anabasis Intelligence](https://anabasisintelligence.com), una firma de implementación de IA creativa que ayuda a PyMEs a operacionalizar fuerzas laborales de IA. **[English version](https://github.com/JG003/paperclip-pantheon)**
 
 ![Paperclip Pantheon](banner.png)
 
