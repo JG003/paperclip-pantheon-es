@@ -35,6 +35,20 @@
 
 ---
 
+## Configuración de Heartbeat
+
+Antes de contratar cualquier agente, configura los valores predeterminados de heartbeat en Paperclip.
+
+| Configuración | Ponos (CEO) | Todos los demás agentes |
+|---|---|---|
+| `enabled` | `true` | `false` |
+| `wakeOnDemand` | `true` | `true` |
+| `intervalSec` | `21600` (6 horas) | `21600` (irrelevante cuando está deshabilitado) |
+
+Todos los agentes vienen con `enabled: false` y `wakeOnDemand: true`. Esto es intencional — déjalo así a menos que sepas lo que estás haciendo. Los agentes se activan instantáneamente cuando Ponos les asigna trabajo o cuando un humano crea una tarea. Solo habilita heartbeats periódicos para agentes que necesiten monitorear algo activamente (ej. Argos vigilando competidores). Cada ciclo de heartbeat carga el contexto completo del agente — archivo SOUL, HEARTBEAT y conocimiento de la empresa — entre 50K y 80K tokens antes de verificar si hay trabajo. Múltiples agentes con heartbeats periódicos sin tareas pendientes agotarán tus límites de uso y créditos más rápido de lo necesario.
+
+---
+
 ## Los 21 Agentes
 
 ### DIVISIÓN DE ESTRATEGIA E INTELIGENCIA
@@ -58,7 +72,7 @@
 - WebSearch, WebFetch (investigación general)
 - Google Drive (biblioteca de investigación compartida)
 
-**Cadencia de heartbeat:** Cada 4 horas durante ciclos activos de investigación. Las corridas nocturnas de autoresearch registran resultados antes de las 8am.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna trabajo de investigación. Las corridas nocturnas de autoresearch registran resultados antes de las 8am.
 
 ---
 
@@ -82,7 +96,7 @@
 - Google Drive (archivar reportes de inteligencia)
 - Scripts de monitoreo RSS/noticias (configurados via Bash)
 
-**Cadencia de heartbeat:** Cada 2 horas. Siempre escaneando. En el momento en que un competidor se mueve, Argos lo detecta.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Habilita heartbeat periódico (`enabled: true`, cada 2 horas) solo si necesitas monitoreo competitivo activo. Desactívalo cuando termine el período de vigilancia. En el momento en que un competidor se mueve, Argos lo detecta.
 
 ---
 
@@ -106,7 +120,7 @@
 - Bash (ejecutar scripts, procesar datos)
 - WebSearch (benchmarking competitivo)
 
-**Cadencia de heartbeat:** Continua durante corridas de experimentos. Entrega resumen de resultados antes de las 8am diariamente.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna ciclos de experimentos. Entrega resumen de resultados antes de las 8am cuando está ejecutando.
 
 ---
 
@@ -130,7 +144,7 @@
 - Gmail MCP (historial de interacciones por email)
 - Skill de gestión de memoria
 
-**Cadencia de heartbeat:** Cada 4 horas. Actualiza CRM después de cada interacción de agente que involucre un contacto externo. Auditoría semanal de base de conocimiento cada lunes.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando otros agentes completan interacciones que requieren registro en CRM. Auditoría semanal de base de conocimiento cada lunes cuando Ponos lo asigne.
 
 ---
 
@@ -156,7 +170,7 @@
 - Integración con GitHub
 - Bash (entorno de desarrollo)
 
-**Cadencia de heartbeat:** Cada 3 horas durante sprints activos de desarrollo. Usa gstack /ship para despliegues.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna sprints de desarrollo. Usa gstack /ship para despliegues.
 
 ---
 
@@ -181,7 +195,7 @@
 - WebFetch (pruebas y monitoreo)
 - Bash (gestión de servidor, respaldos)
 
-**Cadencia de heartbeat:** Diaria. Publica contenido en cola, ejecuta chequeos de salud, monitorea uptime.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna publicación de contenido o mantenimiento del sitio.
 
 ---
 
@@ -205,7 +219,7 @@
 - Google Drive (biblioteca de activos)
 - Herramientas de exportación para formatos web-ready
 
-**Cadencia de heartbeat:** Cada 4 horas. Responde a solicitudes de diseño de otros agentes dentro de un ciclo.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando otros agentes solicitan trabajo de diseño.
 
 ---
 
@@ -234,7 +248,7 @@
 - Klaviyo MCP (contenido de email)
 - WebSearch (investigación para contenido)
 
-**Cadencia de heartbeat:** Cada 4 horas. Mantiene calendario de contenido de 2 semanas. Publica mínimo 2 piezas por semana.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna trabajo de contenido. Mantiene calendario de contenido de 2 semanas.
 
 ---
 
@@ -259,7 +273,7 @@
 - Gmail (coordinación de outreach)
 - Herramientas de programación (Buffer/Hootsuite via automatización)
 
-**Cadencia de heartbeat:** Cada 2 horas en horario laboral. Publicaciones programadas para mañanas tempranas y engagement de fin de semana.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna publicación social o campañas de engagement.
 
 ---
 
@@ -282,7 +296,7 @@
 - Canva MCP, Figma MCP (revisión y dirección)
 - Google Drive (guías de marca, briefs creativos)
 
-**Cadencia de heartbeat:** Cada 6 horas. Revisa creativos salientes antes de publicación. Auditoría semanal de voz de marca.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando creativos salientes necesitan revisión o cuando Ponos solicita auditoría de voz de marca.
 
 ---
 
@@ -306,7 +320,7 @@
 - Google Drive (kit de prensa, log de seguimiento de medios)
 - Acceso a bases de datos de medios
 
-**Cadencia de heartbeat:** Cada 6 horas. Log semanal de outreach de medios. Reporte mensual de medios ganados (colocaciones, alcance, sentimiento).
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna outreach de prensa o campañas de medios.
 
 ---
 
@@ -331,7 +345,7 @@
 - Integraciones de plataformas comunitarias
 - Google Drive (biblioteca de historias de clientes, playbook comunitario)
 
-**Cadencia de heartbeat:** Cada 4 horas. Engagement diario con la comunidad. Reporte semanal de sentimiento del cliente.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna engagement comunitario o seguimiento de clientes.
 
 ---
 
@@ -357,7 +371,7 @@
 - Skills de Excel/hojas de cálculo (análisis de datos de producción, costo por unidad)
 - Bash (scripts de procesamiento de datos)
 
-**Cadencia de heartbeat:** Cada 3 horas. Reporte diario de producción a las 6pm. Análisis semanal de costos cada viernes.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna trabajo de producción o coordinación de manufactura.
 
 ---
 
@@ -382,7 +396,7 @@
 - Google Drive (documentación de envíos, contratos con transportistas)
 - Supabase MCP (base de datos de seguimiento de envíos)
 
-**Cadencia de heartbeat:** Cada 3 horas. Actualización diaria de estatus de envíos. Reporte semanal de costos logísticos cada lunes.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna coordinación de envíos o logística.
 
 ---
 
@@ -406,7 +420,7 @@
 - Google Drive (specs de producto, docs de desarrollo, hoja de ruta)
 - Supabase MCP (seguimiento de pipeline de productos)
 
-**Cadencia de heartbeat:** Cada 6 horas. Revisión semanal de pipeline de producto cada miércoles. Actualización mensual de hoja de ruta de producto.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna trabajo de desarrollo de producto o evaluación de pipeline.
 
 ---
 
@@ -433,7 +447,7 @@
 - Skill de creación de contenido (optimización de listings, estrategia de keywords)
 - Gmail (coordinación con proveedores y logística)
 
-**Cadencia de heartbeat:** Cada 4 horas. Reporte diario de ventas. P&L semanal para el lunes por la mañana.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna optimización de listings o análisis de canal de ventas.
 
 ---
 
@@ -461,7 +475,7 @@
 - LinkedIn via Chrome (investigación de prospectos)
 - WebSearch (inteligencia de industria)
 
-**Cadencia de heartbeat:** Cada 3 horas. Mínimo 10 nuevos prospectos investigados por semana. Revisión de pipeline cada viernes.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna investigación de prospectos o ejecución de outreach.
 
 ---
 
@@ -488,7 +502,7 @@
 - WebSearch (guía regulatoria, derecho de industria, monitoreo de marcas)
 - Google Drive (biblioteca de documentos legales, checklist de cumplimiento)
 
-**Cadencia de heartbeat:** Cada 6 horas. Responde a preguntas legales zona ROJA dentro de un ciclo. Digest regulatorio semanal.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna revisión legal, evaluación de cumplimiento o preparación de contratos.
 
 ---
 
@@ -514,7 +528,7 @@
 - Supabase MCP (persistencia de datos financieros, seguimiento de P&L en tiempo real)
 - Google Drive (reportes financieros, modelos para inversores)
 
-**Cadencia de heartbeat:** Cada 6 horas. Resumen financiero semanal cada domingo. P&L mensual para el 3 de cada mes.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna modelado financiero, reportes o preparación de materiales para inversores.
 
 ---
 
@@ -542,7 +556,7 @@
 - Skills de gestión de proyectos (cronograma, presupuesto, coordinación de proveedores)
 - Supabase MCP (seguimiento de eventos, captura de leads)
 
-**Cadencia de heartbeat:** Cada 6 horas durante períodos de planificación de eventos. Cada 2 horas en días de evento. Reporte post-evento dentro de 24 horas.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna planificación o coordinación de eventos.
 
 ---
 
@@ -569,7 +583,7 @@
 - WebSearch (regulaciones de seguridad de producto, monitoreo de recalls)
 - Supabase MCP (base de datos de métricas de calidad, seguimiento de quejas)
 
-**Cadencia de heartbeat:** Cada 3 horas. Responde a problemas urgentes de clientes dentro de un ciclo. Revisión diaria de métricas de calidad. Reporte semanal de soporte.
+**Cadencia de heartbeat:** `enabled: false`, `wakeOnDemand: true`. Se activa cuando Ponos asigna resolución de problemas de clientes o tareas de QA.
 
 ---
 
@@ -625,7 +639,7 @@ No contrates 21 agentes de golpe. Aquí está la lógica de despliegue secuencia
 ### Paperclip (Ponos gestiona la empresa)
 - Ponos asigna trabajo a los 21 agentes
 - Rastrea presupuesto, tareas completadas, decisiones registradas
-- Heartbeats configurados para coincidir con el calendario de revisión del fundador/mesa directiva
+- Heartbeat de Ponos cada 6 horas; todos los demás agentes solo con wake-on-demand. No habilites heartbeats periódicos para agentes no-CEO — desperdicia tokens y dispara límites de uso
 - Función multi-empresa separa entidades si la organización opera múltiples empresas
 
 ### gstack (Daedalus y Hephaestus construyen cosas)
@@ -718,12 +732,13 @@ agents/
 ## Desplegando para una Nueva Empresa
 
 1. **Copia esta plantilla** como punto de partida
-2. **Completa cada sección `[COMPANY-SPECIFIC]`** con los productos, canales, clientes, competidores, entorno regulatorio y prioridades reales de la empresa
-3. **Ajusta la declaración de misión de cada agente** para reflejar el contexto específico de la empresa
-4. **Personaliza las responsabilidades principales** — mantén los elementos universales, agrega los específicos de la empresa, elimina los que no apliquen
-5. **Ajusta la secuencia de contratación** — los principios (ingresos primero, memoria temprano, eventos al final) son universales, pero qué agentes importan más en el paso 1 depende de la empresa
-6. **Completa el Ciclo Diario** con un ejemplo realista de las operaciones de la empresa
-7. **Decide qué agentes omitir** — no toda empresa necesita los 21 (ver la Guía de Activación en la plantilla del Pantheon)
+2. **Configura los heartbeats por defecto** — Confirma que todos los agentes estén en `enabled: false`, `wakeOnDemand: true`. Habilita heartbeat periódico solo para Ponos. No hacer esto causará fallos por límite de uso y gasto innecesario de API.
+3. **Completa cada sección `[COMPANY-SPECIFIC]`** con los productos, canales, clientes, competidores, entorno regulatorio y prioridades reales de la empresa
+4. **Ajusta la declaración de misión de cada agente** para reflejar el contexto específico de la empresa
+5. **Personaliza las responsabilidades principales** — mantén los elementos universales, agrega los específicos de la empresa, elimina los que no apliquen
+6. **Ajusta la secuencia de contratación** — los principios (ingresos primero, memoria temprano, eventos al final) son universales, pero qué agentes importan más en el paso 1 depende de la empresa
+7. **Completa el Ciclo Diario** con un ejemplo realista de las operaciones de la empresa
+8. **Decide qué agentes omitir** — no toda empresa necesita los 21 (ver la Guía de Activación en la plantilla del Pantheon)
 
 ---
 
