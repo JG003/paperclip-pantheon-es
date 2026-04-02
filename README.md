@@ -136,6 +136,15 @@ El framework incluye una **Guía de Activación** con tres niveles:
 Un fundador solo podría operar con 7 agentes. Una empresa de productos físicos podría usar los 21. El Council of 5 es siempre el mismo en todas partes — los estilos de pensamiento no cambian, solo cambia el contexto.
 
 ---
+## Valores Predeterminados de Heartbeat
+
+Todos los agentes vienen configurados con **enabled: false** y **wakeOnDemand: true**. Esto es intencional — déjalo así a menos que sepas lo que estás haciendo con los heartbeats. Los agentes se activan instantáneamente cuando Ponos les asigna trabajo o cuando un humano crea una tarea.
+
+Solo habilita heartbeats periódicos para agentes que necesiten monitorear algo activamente (por ejemplo, Argos vigilando a la competencia). El agente CEO (Ponos) también puede beneficiarse de un chequeo periódico (cada 6 horas es un buen punto de partida), pero incluso Ponos funciona bien con wake-on-demand si prefieres gestionar las tareas manualmente.
+
+Por qué importa: Cada heartbeat carga el contexto completo del agente — archivo SOUL, archivo HEARTBEAT, conocimiento de la empresa — entre 50K y 80K tokens antes de siquiera verificar si hay trabajo pendiente. Múltiples agentes con heartbeats periódicos sin nada que hacer agotarán tus límites de uso y créditos más rápido de lo necesario.
+
+---
 
 ## Inspirado Por
 
